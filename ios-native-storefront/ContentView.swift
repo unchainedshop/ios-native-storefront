@@ -9,8 +9,19 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var fetcher = ProductFetcher()
+    
     var body: some View {
-        Text("Hello, World!")
+        VStack {
+            List(fetcher.products) { product in
+                VStack (alignment: .leading) {
+                    Text(product.texts?.title ?? "")
+                    Text(product.texts?.subtitle ?? "")
+                        .font(.system(size: 11))
+                        .foregroundColor(Color.gray)
+                }
+            }
+        }
     }
 }
 

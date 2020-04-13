@@ -1,0 +1,28 @@
+query SimpleProductList($limit: Int, $offset: Int) {
+  products(limit: $limit, offset: $offset) {
+    _id
+    media {
+      _id
+      file {
+        _id
+        url
+      }
+    }
+    texts {
+      _id
+      slug
+      title
+      subtitle
+      description
+    }
+    ... on SimpleProduct {
+      simulatedPrice {
+        _id
+        price {
+          amount
+          currency
+        }
+      }
+    }
+  }
+}
