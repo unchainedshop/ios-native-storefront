@@ -8,6 +8,7 @@
 
 import Foundation
 import Apollo
+import StoreKit
 
 extension SimpleProductListQuery.Data.Product: Comparable, Identifiable {
     public typealias ID = String
@@ -25,11 +26,14 @@ extension SimpleProductListQuery.Data.Product: Comparable, Identifiable {
     }
 }
 
-public class ProductFetcher: ObservableObject {
+public class ProductFetcher: ObservableObject, StoreManagerDelegate {
     @Published var products = [SimpleProductListQuery.Data.Product]()
     var watcher: GraphQLQueryWatcher<SimpleProductListQuery>? = nil
     
     init(){
+        StoreManager.shared.delegate = self
+        StoreManager.shared.startProductRequest(with: ["PLAN"])
+
         self.watcher = Network.shared.apollo.watch(query: SimpleProductListQuery(limit: 0, offset: 0), cachePolicy: .returnCacheDataAndFetch) { result in
           switch result {
           case .success(let graphQLResult):
@@ -39,6 +43,20 @@ public class ProductFetcher: ObservableObject {
             print("Failure! Error: \(error)")
           }
         }
+    }
+    
+    func storeManagerDidReceiveMessage(_ message: String) {
+        print(message)
+    }
+    
+    func storeManagerDidReceiveResponse(_ response: [Section]) {
+        let allElements = response.flatMap { section -> [SKProduct] in
+            let mappedProducts = section.elements.compactMap { product in
+                return product as? SKProduct
+            }
+            return mappedProducts
+        }
+        print(allElements.map { product in product.productIdentifier  })
     }
     
     deinit {

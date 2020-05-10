@@ -17,6 +17,12 @@
 		490E916D2444825400115EF6 /* SimpleProductList.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 490E916C2444825400115EF6 /* SimpleProductList.graphql */; };
 		490E916F2444855A00115EF6 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490E916E2444855900115EF6 /* API.swift */; };
 		490E91712444861900115EF6 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490E91702444861900115EF6 /* Network.swift */; };
+		49278BC22467EE9F0064DE37 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49278BC12467EE9F0064DE37 /* StoreKit.framework */; };
+		49278BCC24687CA80064DE37 /* StoreObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49278BC724687CA80064DE37 /* StoreObserver.swift */; };
+		49278BCE24687CA80064DE37 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49278BC924687CA80064DE37 /* StoreManager.swift */; };
+		49278BD124687CE40064DE37 /* AppDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49278BD024687CE40064DE37 /* AppDataTypes.swift */; };
+		49278BD424687D290064DE37 /* AppProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49278BD224687D290064DE37 /* AppProtocols.swift */; };
+		49278BD524687D290064DE37 /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49278BD324687D290064DE37 /* AppExtensions.swift */; };
 		49F4115424448C8D00952D96 /* ProductFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F4115324448C8D00952D96 /* ProductFetcher.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +38,13 @@
 		490E916C2444825400115EF6 /* SimpleProductList.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = SimpleProductList.graphql; sourceTree = "<group>"; };
 		490E916E2444855900115EF6 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		490E91702444861900115EF6 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		49278BC12467EE9F0064DE37 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		49278BC32467EEA60064DE37 /* ios-native-storefront.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ios-native-storefront.entitlements"; sourceTree = "<group>"; };
+		49278BC724687CA80064DE37 /* StoreObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreObserver.swift; sourceTree = "<group>"; };
+		49278BC924687CA80064DE37 /* StoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
+		49278BD024687CE40064DE37 /* AppDataTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDataTypes.swift; sourceTree = "<group>"; };
+		49278BD224687D290064DE37 /* AppProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppProtocols.swift; sourceTree = "<group>"; };
+		49278BD324687D290064DE37 /* AppExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppExtensions.swift; sourceTree = "<group>"; };
 		49F4115324448C8D00952D96 /* ProductFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductFetcher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -41,6 +54,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				490E916A24447B9B00115EF6 /* Apollo in Frameworks */,
+				49278BC22467EE9F0064DE37 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,6 +66,7 @@
 			children = (
 				490E915324447AAF00115EF6 /* ios-native-storefront */,
 				490E915224447AAF00115EF6 /* Products */,
+				49278BC02467EE9F0064DE37 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -66,6 +81,12 @@
 		490E915324447AAF00115EF6 /* ios-native-storefront */ = {
 			isa = PBXGroup;
 			children = (
+				49278BD324687D290064DE37 /* AppExtensions.swift */,
+				49278BD224687D290064DE37 /* AppProtocols.swift */,
+				49278BD024687CE40064DE37 /* AppDataTypes.swift */,
+				49278BC924687CA80064DE37 /* StoreManager.swift */,
+				49278BC724687CA80064DE37 /* StoreObserver.swift */,
+				49278BC32467EEA60064DE37 /* ios-native-storefront.entitlements */,
 				490E916E2444855900115EF6 /* API.swift */,
 				490E915424447AAF00115EF6 /* AppDelegate.swift */,
 				490E915624447AAF00115EF6 /* SceneDelegate.swift */,
@@ -87,6 +108,14 @@
 				490E915D24447AB100115EF6 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		49278BC02467EE9F0064DE37 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				49278BC12467EE9F0064DE37 /* StoreKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,10 +220,15 @@
 			files = (
 				490E91712444861900115EF6 /* Network.swift in Sources */,
 				49F4115424448C8D00952D96 /* ProductFetcher.swift in Sources */,
+				49278BCE24687CA80064DE37 /* StoreManager.swift in Sources */,
 				490E915524447AAF00115EF6 /* AppDelegate.swift in Sources */,
+				49278BD424687D290064DE37 /* AppProtocols.swift in Sources */,
 				490E915724447AAF00115EF6 /* SceneDelegate.swift in Sources */,
+				49278BCC24687CA80064DE37 /* StoreObserver.swift in Sources */,
+				49278BD124687CE40064DE37 /* AppDataTypes.swift in Sources */,
 				490E916F2444855A00115EF6 /* API.swift in Sources */,
 				490E915924447AAF00115EF6 /* ContentView.swift in Sources */,
+				49278BD524687D290064DE37 /* AppExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +364,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "ios-native-storefront/ios-native-storefront.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"ios-native-storefront/Preview Content\"";
 				DEVELOPMENT_TEAM = SSCB95CV6U;
@@ -350,6 +385,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "ios-native-storefront/ios-native-storefront.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"ios-native-storefront/Preview Content\"";
 				DEVELOPMENT_TEAM = SSCB95CV6U;

@@ -89,7 +89,7 @@ public final class SimpleProductListQuery: GraphQLQuery {
     }
 
     public struct Product: GraphQLSelectionSet {
-      public static let possibleTypes: [String] = ["BundleProduct", "ConfigurableProduct", "SimpleProduct"]
+      public static let possibleTypes: [String] = ["PlanProduct", "BundleProduct", "ConfigurableProduct", "SimpleProduct"]
 
       public static let selections: [GraphQLSelection] = [
         GraphQLTypeCase(
@@ -107,6 +107,10 @@ public final class SimpleProductListQuery: GraphQLQuery {
 
       public init(unsafeResultMap: ResultMap) {
         self.resultMap = unsafeResultMap
+      }
+
+      public static func makePlanProduct(_id: GraphQLID, media: [Medium], texts: Text? = nil) -> Product {
+        return Product(unsafeResultMap: ["__typename": "PlanProduct", "_id": _id, "media": media.map { (value: Medium) -> ResultMap in value.resultMap }, "texts": texts.flatMap { (value: Text) -> ResultMap in value.resultMap }])
       }
 
       public static func makeBundleProduct(_id: GraphQLID, media: [Medium], texts: Text? = nil) -> Product {
@@ -627,8 +631,8 @@ public final class SimpleProductListQuery: GraphQLQuery {
 
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-              GraphQLField("amount", type: .scalar(Int.self)),
-              GraphQLField("currency", type: .scalar(String.self)),
+              GraphQLField("amount", type: .nonNull(.scalar(Int.self))),
+              GraphQLField("currency", type: .nonNull(.scalar(String.self))),
             ]
 
             public private(set) var resultMap: ResultMap
@@ -637,7 +641,7 @@ public final class SimpleProductListQuery: GraphQLQuery {
               self.resultMap = unsafeResultMap
             }
 
-            public init(amount: Int? = nil, currency: String? = nil) {
+            public init(amount: Int, currency: String) {
               self.init(unsafeResultMap: ["__typename": "Money", "amount": amount, "currency": currency])
             }
 
@@ -650,18 +654,18 @@ public final class SimpleProductListQuery: GraphQLQuery {
               }
             }
 
-            public var amount: Int? {
+            public var amount: Int {
               get {
-                return resultMap["amount"] as? Int
+                return resultMap["amount"]! as! Int
               }
               set {
                 resultMap.updateValue(newValue, forKey: "amount")
               }
             }
 
-            public var currency: String? {
+            public var currency: String {
               get {
-                return resultMap["currency"] as? String
+                return resultMap["currency"]! as! String
               }
               set {
                 resultMap.updateValue(newValue, forKey: "currency")
