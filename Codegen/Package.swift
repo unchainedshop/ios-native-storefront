@@ -10,7 +10,7 @@ let package = Package(
         // .package(url: /* package url */, from: "1.0.0"),
         .package(name: "Apollo",
         url: "https://github.com/apollographql/apollo-ios.git",
-        .upToNextMinor(from: "0.25.0"))
+        .upToNextMinor(from: "0.27.0"))
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
