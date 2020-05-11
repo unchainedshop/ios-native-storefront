@@ -24,6 +24,8 @@
 		49278BD424687D290064DE37 /* AppProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49278BD224687D290064DE37 /* AppProtocols.swift */; };
 		49278BD524687D290064DE37 /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49278BD324687D290064DE37 /* AppExtensions.swift */; };
 		49F4115424448C8D00952D96 /* ProductFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F4115324448C8D00952D96 /* ProductFetcher.swift */; };
+		49F741FD24698F4300BD3B01 /* MeFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F741FC24698F4300BD3B01 /* MeFetcher.swift */; };
+		49F741FF24698FA500BD3B01 /* Me.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 49F741FE24698FA500BD3B01 /* Me.graphql */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		49278BD224687D290064DE37 /* AppProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppProtocols.swift; sourceTree = "<group>"; };
 		49278BD324687D290064DE37 /* AppExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppExtensions.swift; sourceTree = "<group>"; };
 		49F4115324448C8D00952D96 /* ProductFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductFetcher.swift; sourceTree = "<group>"; };
+		49F741FC24698F4300BD3B01 /* MeFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeFetcher.swift; sourceTree = "<group>"; };
+		49F741FE24698FA500BD3B01 /* Me.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = Me.graphql; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,23 +85,25 @@
 		490E915324447AAF00115EF6 /* ios-native-storefront */ = {
 			isa = PBXGroup;
 			children = (
+				490E916E2444855900115EF6 /* API.swift */,
+				49278BD024687CE40064DE37 /* AppDataTypes.swift */,
+				490E915424447AAF00115EF6 /* AppDelegate.swift */,
 				49278BD324687D290064DE37 /* AppExtensions.swift */,
 				49278BD224687D290064DE37 /* AppProtocols.swift */,
-				49278BD024687CE40064DE37 /* AppDataTypes.swift */,
+				490E915A24447AB100115EF6 /* Assets.xcassets */,
+				490E915824447AAF00115EF6 /* ContentView.swift */,
+				490E916224447AB100115EF6 /* Info.plist */,
+				49278BC32467EEA60064DE37 /* ios-native-storefront.entitlements */,
+				490E915F24447AB100115EF6 /* LaunchScreen.storyboard */,
+				49F741FE24698FA500BD3B01 /* Me.graphql */,
+				49F741FC24698F4300BD3B01 /* MeFetcher.swift */,
+				490E91702444861900115EF6 /* Network.swift */,
+				490E915C24447AB100115EF6 /* Preview Content */,
+				49F4115324448C8D00952D96 /* ProductFetcher.swift */,
+				490E915624447AAF00115EF6 /* SceneDelegate.swift */,
+				490E916C2444825400115EF6 /* SimpleProductList.graphql */,
 				49278BC924687CA80064DE37 /* StoreManager.swift */,
 				49278BC724687CA80064DE37 /* StoreObserver.swift */,
-				49278BC32467EEA60064DE37 /* ios-native-storefront.entitlements */,
-				490E916E2444855900115EF6 /* API.swift */,
-				490E915424447AAF00115EF6 /* AppDelegate.swift */,
-				490E915624447AAF00115EF6 /* SceneDelegate.swift */,
-				490E915824447AAF00115EF6 /* ContentView.swift */,
-				490E915A24447AB100115EF6 /* Assets.xcassets */,
-				490E915F24447AB100115EF6 /* LaunchScreen.storyboard */,
-				490E916224447AB100115EF6 /* Info.plist */,
-				490E915C24447AB100115EF6 /* Preview Content */,
-				490E916C2444825400115EF6 /* SimpleProductList.graphql */,
-				490E91702444861900115EF6 /* Network.swift */,
-				49F4115324448C8D00952D96 /* ProductFetcher.swift */,
 			);
 			path = "ios-native-storefront";
 			sourceTree = "<group>";
@@ -186,6 +192,7 @@
 				490E916124447AB100115EF6 /* LaunchScreen.storyboard in Resources */,
 				490E916D2444825400115EF6 /* SimpleProductList.graphql in Resources */,
 				490E915E24447AB100115EF6 /* Preview Assets.xcassets in Resources */,
+				49F741FF24698FA500BD3B01 /* Me.graphql in Resources */,
 				490E915B24447AB100115EF6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -218,6 +225,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49F741FD24698F4300BD3B01 /* MeFetcher.swift in Sources */,
 				490E91712444861900115EF6 /* Network.swift in Sources */,
 				49F4115424448C8D00952D96 /* ProductFetcher.swift in Sources */,
 				49278BCE24687CA80064DE37 /* StoreManager.swift in Sources */,

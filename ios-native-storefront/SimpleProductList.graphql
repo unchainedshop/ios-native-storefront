@@ -24,5 +24,14 @@ query SimpleProductList($limit: Int, $offset: Int) {
         }
       }
     }
+    ... on PlanProduct {
+      simulatedPrice {
+        _id
+        price {
+          amount
+          currency
+        }
+      }
+    }
   }
 }

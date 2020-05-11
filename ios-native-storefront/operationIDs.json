@@ -1,6 +1,10 @@
 {
-  "f0c290b0188d38182187cc21371a9d83a33ae60ed9ca796931788a5d3a9a5092": {
+  "a4cae260ad381ec9a7d5d9847284501b4079c0a128499d294d906070a36ff60e": {
+    "name": "Me",
+    "source": "query Me {\n  me {\n    __typename\n    _id\n    username\n  }\n}"
+  },
+  "12cdfd9a86038bc1e0c5d066c434dae991b03bc0da8cd7c82f9fc47b3cca89eb": {
     "name": "SimpleProductList",
-    "source": "query SimpleProductList($limit: Int, $offset: Int) {\n  products(limit: $limit, offset: $offset) {\n    __typename\n    _id\n    media {\n      __typename\n      _id\n      file {\n        __typename\n        _id\n        url\n      }\n    }\n    texts {\n      __typename\n      _id\n      slug\n      title\n      subtitle\n      description\n    }\n    ... on SimpleProduct {\n      simulatedPrice {\n        __typename\n        _id\n        price {\n          __typename\n          amount\n          currency\n        }\n      }\n    }\n  }\n}"
+    "source": "query SimpleProductList($limit: Int, $offset: Int) {\n  products(limit: $limit, offset: $offset) {\n    __typename\n    _id\n    media {\n      __typename\n      _id\n      file {\n        __typename\n        _id\n        url\n      }\n    }\n    texts {\n      __typename\n      _id\n      slug\n      title\n      subtitle\n      description\n    }\n    ... on SimpleProduct {\n      simulatedPrice {\n        __typename\n        _id\n        price {\n          __typename\n          amount\n          currency\n        }\n      }\n    }\n    ... on PlanProduct {\n      simulatedPrice {\n        __typename\n        _id\n        price {\n          __typename\n          amount\n          currency\n        }\n      }\n    }\n  }\n}"
   }
 }

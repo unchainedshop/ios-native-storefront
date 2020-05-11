@@ -4,6 +4,102 @@
 import Apollo
 import Foundation
 
+public final class MeQuery: GraphQLQuery {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    query Me {
+      me {
+        __typename
+        _id
+        username
+      }
+    }
+    """
+
+  public let operationName: String = "Me"
+
+  public let operationIdentifier: String? = "a4cae260ad381ec9a7d5d9847284501b4079c0a128499d294d906070a36ff60e"
+
+  public init() {
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Query"]
+
+    public static let selections: [GraphQLSelection] = [
+      GraphQLField("me", type: .object(Me.selections)),
+    ]
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(me: Me? = nil) {
+      self.init(unsafeResultMap: ["__typename": "Query", "me": me.flatMap { (value: Me) -> ResultMap in value.resultMap }])
+    }
+
+    /// Currently logged in user
+    public var me: Me? {
+      get {
+        return (resultMap["me"] as? ResultMap).flatMap { Me(unsafeResultMap: $0) }
+      }
+      set {
+        resultMap.updateValue(newValue?.resultMap, forKey: "me")
+      }
+    }
+
+    public struct Me: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["User"]
+
+      public static let selections: [GraphQLSelection] = [
+        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+        GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+        GraphQLField("username", type: .scalar(String.self)),
+      ]
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(_id: GraphQLID, username: String? = nil) {
+        self.init(unsafeResultMap: ["__typename": "User", "_id": _id, "username": username])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var _id: GraphQLID {
+        get {
+          return resultMap["_id"]! as! GraphQLID
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "_id")
+        }
+      }
+
+      public var username: String? {
+        get {
+          return resultMap["username"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "username")
+        }
+      }
+    }
+  }
+}
+
 public final class SimpleProductListQuery: GraphQLQuery {
   /// The raw GraphQL definition of this operation.
   public let operationDefinition: String =
@@ -40,13 +136,24 @@ public final class SimpleProductListQuery: GraphQLQuery {
             }
           }
         }
+        ... on PlanProduct {
+          simulatedPrice {
+            __typename
+            _id
+            price {
+              __typename
+              amount
+              currency
+            }
+          }
+        }
       }
     }
     """
 
   public let operationName: String = "SimpleProductList"
 
-  public let operationIdentifier: String? = "f0c290b0188d38182187cc21371a9d83a33ae60ed9ca796931788a5d3a9a5092"
+  public let operationIdentifier: String? = "12cdfd9a86038bc1e0c5d066c434dae991b03bc0da8cd7c82f9fc47b3cca89eb"
 
   public var limit: Int?
   public var offset: Int?
@@ -93,7 +200,7 @@ public final class SimpleProductListQuery: GraphQLQuery {
 
       public static let selections: [GraphQLSelection] = [
         GraphQLTypeCase(
-          variants: ["SimpleProduct": AsSimpleProduct.selections],
+          variants: ["SimpleProduct": AsSimpleProduct.selections, "PlanProduct": AsPlanProduct.selections],
           default: [
             GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
             GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
@@ -109,10 +216,6 @@ public final class SimpleProductListQuery: GraphQLQuery {
         self.resultMap = unsafeResultMap
       }
 
-      public static func makePlanProduct(_id: GraphQLID, media: [Medium], texts: Text? = nil) -> Product {
-        return Product(unsafeResultMap: ["__typename": "PlanProduct", "_id": _id, "media": media.map { (value: Medium) -> ResultMap in value.resultMap }, "texts": texts.flatMap { (value: Text) -> ResultMap in value.resultMap }])
-      }
-
       public static func makeBundleProduct(_id: GraphQLID, media: [Medium], texts: Text? = nil) -> Product {
         return Product(unsafeResultMap: ["__typename": "BundleProduct", "_id": _id, "media": media.map { (value: Medium) -> ResultMap in value.resultMap }, "texts": texts.flatMap { (value: Text) -> ResultMap in value.resultMap }])
       }
@@ -123,6 +226,10 @@ public final class SimpleProductListQuery: GraphQLQuery {
 
       public static func makeSimpleProduct(_id: GraphQLID, media: [AsSimpleProduct.Medium], texts: AsSimpleProduct.Text? = nil, simulatedPrice: AsSimpleProduct.SimulatedPrice? = nil) -> Product {
         return Product(unsafeResultMap: ["__typename": "SimpleProduct", "_id": _id, "media": media.map { (value: AsSimpleProduct.Medium) -> ResultMap in value.resultMap }, "texts": texts.flatMap { (value: AsSimpleProduct.Text) -> ResultMap in value.resultMap }, "simulatedPrice": simulatedPrice.flatMap { (value: AsSimpleProduct.SimulatedPrice) -> ResultMap in value.resultMap }])
+      }
+
+      public static func makePlanProduct(_id: GraphQLID, media: [AsPlanProduct.Medium], texts: AsPlanProduct.Text? = nil, simulatedPrice: AsPlanProduct.SimulatedPrice? = nil) -> Product {
+        return Product(unsafeResultMap: ["__typename": "PlanProduct", "_id": _id, "media": media.map { (value: AsPlanProduct.Medium) -> ResultMap in value.resultMap }, "texts": texts.flatMap { (value: AsPlanProduct.Text) -> ResultMap in value.resultMap }, "simulatedPrice": simulatedPrice.flatMap { (value: AsPlanProduct.SimulatedPrice) -> ResultMap in value.resultMap }])
       }
 
       public var __typename: String {
@@ -362,6 +469,349 @@ public final class SimpleProductListQuery: GraphQLQuery {
 
         public init(_id: GraphQLID, media: [Medium], texts: Text? = nil, simulatedPrice: SimulatedPrice? = nil) {
           self.init(unsafeResultMap: ["__typename": "SimpleProduct", "_id": _id, "media": media.map { (value: Medium) -> ResultMap in value.resultMap }, "texts": texts.flatMap { (value: Text) -> ResultMap in value.resultMap }, "simulatedPrice": simulatedPrice.flatMap { (value: SimulatedPrice) -> ResultMap in value.resultMap }])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var _id: GraphQLID {
+          get {
+            return resultMap["_id"]! as! GraphQLID
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "_id")
+          }
+        }
+
+        public var media: [Medium] {
+          get {
+            return (resultMap["media"] as! [ResultMap]).map { (value: ResultMap) -> Medium in Medium(unsafeResultMap: value) }
+          }
+          set {
+            resultMap.updateValue(newValue.map { (value: Medium) -> ResultMap in value.resultMap }, forKey: "media")
+          }
+        }
+
+        public var texts: Text? {
+          get {
+            return (resultMap["texts"] as? ResultMap).flatMap { Text(unsafeResultMap: $0) }
+          }
+          set {
+            resultMap.updateValue(newValue?.resultMap, forKey: "texts")
+          }
+        }
+
+        public var simulatedPrice: SimulatedPrice? {
+          get {
+            return (resultMap["simulatedPrice"] as? ResultMap).flatMap { SimulatedPrice(unsafeResultMap: $0) }
+          }
+          set {
+            resultMap.updateValue(newValue?.resultMap, forKey: "simulatedPrice")
+          }
+        }
+
+        public struct Medium: GraphQLSelectionSet {
+          public static let possibleTypes: [String] = ["ProductMedia"]
+
+          public static let selections: [GraphQLSelection] = [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+            GraphQLField("file", type: .nonNull(.object(File.selections))),
+          ]
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(_id: GraphQLID, file: File) {
+            self.init(unsafeResultMap: ["__typename": "ProductMedia", "_id": _id, "file": file.resultMap])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          public var _id: GraphQLID {
+            get {
+              return resultMap["_id"]! as! GraphQLID
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "_id")
+            }
+          }
+
+          public var file: File {
+            get {
+              return File(unsafeResultMap: resultMap["file"]! as! ResultMap)
+            }
+            set {
+              resultMap.updateValue(newValue.resultMap, forKey: "file")
+            }
+          }
+
+          public struct File: GraphQLSelectionSet {
+            public static let possibleTypes: [String] = ["Media"]
+
+            public static let selections: [GraphQLSelection] = [
+              GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+              GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("url", type: .nonNull(.scalar(String.self))),
+            ]
+
+            public private(set) var resultMap: ResultMap
+
+            public init(unsafeResultMap: ResultMap) {
+              self.resultMap = unsafeResultMap
+            }
+
+            public init(_id: GraphQLID, url: String) {
+              self.init(unsafeResultMap: ["__typename": "Media", "_id": _id, "url": url])
+            }
+
+            public var __typename: String {
+              get {
+                return resultMap["__typename"]! as! String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "__typename")
+              }
+            }
+
+            public var _id: GraphQLID {
+              get {
+                return resultMap["_id"]! as! GraphQLID
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "_id")
+              }
+            }
+
+            public var url: String {
+              get {
+                return resultMap["url"]! as! String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "url")
+              }
+            }
+          }
+        }
+
+        public struct Text: GraphQLSelectionSet {
+          public static let possibleTypes: [String] = ["ProductTexts"]
+
+          public static let selections: [GraphQLSelection] = [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+            GraphQLField("slug", type: .scalar(String.self)),
+            GraphQLField("title", type: .scalar(String.self)),
+            GraphQLField("subtitle", type: .scalar(String.self)),
+            GraphQLField("description", type: .scalar(String.self)),
+          ]
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(_id: GraphQLID, slug: String? = nil, title: String? = nil, subtitle: String? = nil, description: String? = nil) {
+            self.init(unsafeResultMap: ["__typename": "ProductTexts", "_id": _id, "slug": slug, "title": title, "subtitle": subtitle, "description": description])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          public var _id: GraphQLID {
+            get {
+              return resultMap["_id"]! as! GraphQLID
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "_id")
+            }
+          }
+
+          public var slug: String? {
+            get {
+              return resultMap["slug"] as? String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "slug")
+            }
+          }
+
+          public var title: String? {
+            get {
+              return resultMap["title"] as? String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "title")
+            }
+          }
+
+          public var subtitle: String? {
+            get {
+              return resultMap["subtitle"] as? String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "subtitle")
+            }
+          }
+
+          public var description: String? {
+            get {
+              return resultMap["description"] as? String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "description")
+            }
+          }
+        }
+
+        public struct SimulatedPrice: GraphQLSelectionSet {
+          public static let possibleTypes: [String] = ["ProductPrice"]
+
+          public static let selections: [GraphQLSelection] = [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+            GraphQLField("price", type: .nonNull(.object(Price.selections))),
+          ]
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(_id: GraphQLID, price: Price) {
+            self.init(unsafeResultMap: ["__typename": "ProductPrice", "_id": _id, "price": price.resultMap])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          public var _id: GraphQLID {
+            get {
+              return resultMap["_id"]! as! GraphQLID
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "_id")
+            }
+          }
+
+          public var price: Price {
+            get {
+              return Price(unsafeResultMap: resultMap["price"]! as! ResultMap)
+            }
+            set {
+              resultMap.updateValue(newValue.resultMap, forKey: "price")
+            }
+          }
+
+          public struct Price: GraphQLSelectionSet {
+            public static let possibleTypes: [String] = ["Money"]
+
+            public static let selections: [GraphQLSelection] = [
+              GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+              GraphQLField("amount", type: .nonNull(.scalar(Int.self))),
+              GraphQLField("currency", type: .nonNull(.scalar(String.self))),
+            ]
+
+            public private(set) var resultMap: ResultMap
+
+            public init(unsafeResultMap: ResultMap) {
+              self.resultMap = unsafeResultMap
+            }
+
+            public init(amount: Int, currency: String) {
+              self.init(unsafeResultMap: ["__typename": "Money", "amount": amount, "currency": currency])
+            }
+
+            public var __typename: String {
+              get {
+                return resultMap["__typename"]! as! String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "__typename")
+              }
+            }
+
+            public var amount: Int {
+              get {
+                return resultMap["amount"]! as! Int
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "amount")
+              }
+            }
+
+            public var currency: String {
+              get {
+                return resultMap["currency"]! as! String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "currency")
+              }
+            }
+          }
+        }
+      }
+
+      public var asPlanProduct: AsPlanProduct? {
+        get {
+          if !AsPlanProduct.possibleTypes.contains(__typename) { return nil }
+          return AsPlanProduct(unsafeResultMap: resultMap)
+        }
+        set {
+          guard let newValue = newValue else { return }
+          resultMap = newValue.resultMap
+        }
+      }
+
+      public struct AsPlanProduct: GraphQLSelectionSet {
+        public static let possibleTypes: [String] = ["PlanProduct"]
+
+        public static let selections: [GraphQLSelection] = [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("media", type: .nonNull(.list(.nonNull(.object(Medium.selections))))),
+          GraphQLField("texts", type: .object(Text.selections)),
+          GraphQLField("simulatedPrice", type: .object(SimulatedPrice.selections)),
+        ]
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(_id: GraphQLID, media: [Medium], texts: Text? = nil, simulatedPrice: SimulatedPrice? = nil) {
+          self.init(unsafeResultMap: ["__typename": "PlanProduct", "_id": _id, "media": media.map { (value: Medium) -> ResultMap in value.resultMap }, "texts": texts.flatMap { (value: Text) -> ResultMap in value.resultMap }, "simulatedPrice": simulatedPrice.flatMap { (value: SimulatedPrice) -> ResultMap in value.resultMap }])
         }
 
         public var __typename: String {

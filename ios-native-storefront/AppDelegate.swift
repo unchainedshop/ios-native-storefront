@@ -19,6 +19,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         SKPaymentQueue.default().add(StoreObserver.shared)
+        
+        if let appStoreReceiptURL = Bundle.main.appStoreReceiptURL,
+            FileManager.default.fileExists(atPath: appStoreReceiptURL.path) {
+
+            do {
+                let receiptData = try Data(contentsOf: appStoreReceiptURL, options: .alwaysMapped)
+                print(receiptData)
+
+                let receiptString = receiptData.base64EncodedString(options: [])
+                print(receiptString)
+                
+                // Read receiptData
+            }
+            catch { print("Couldn't read receipt data with error: " + error.localizedDescription) }
+        }
         return true
     }
 

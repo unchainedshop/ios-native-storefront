@@ -121,25 +121,3 @@ struct Section {
     /// List of products/purchases.
     var elements = [Any]()
 }
-
-// MARK: - View Controllers
-
-/// A structure that specifies all the view controller identifiers.
-struct ViewControllerIdentifiers {
-    static let availableProducts = "availableProducts"
-    static let invalidProductdentifiers = "invalidProductIdentifiers"
-    static let messages = "messages"
-    static let products = "products"
-    static let purchases = "purchases"
-}
-
-/// An enumeration of view controller names.
-enum ViewControllerNames: String, CustomStringConvertible {
-    case messages = "Messages"
-    case products = "Products"
-    case purchases = "Purchases"
-    
-    var description: String {
-        return self.rawValue
-    }
-}

@@ -26,23 +26,50 @@ extension SimpleProductListQuery.Data.Product: Comparable, Identifiable {
     }
 }
 
+struct Product: Comparable, Identifiable {
+    public typealias ID = String
+
+    static func < (lhs: Product, rhs: Product) -> Bool {
+        return lhs.id < rhs.id
+    }
+    
+    public var id: ID {
+        return unchainedProduct._id
+    }
+    let storeKitProduct: SKProduct?
+    let unchainedProduct: SimpleProductListQuery.Data.Product
+}
+
 public class ProductFetcher: ObservableObject, StoreManagerDelegate {
-    @Published var products = [SimpleProductListQuery.Data.Product]()
+    @Published var products = [Product]()
+    var unchainedProducts = [SimpleProductListQuery.Data.Product]()
+    var storeKitProducts = Set<SKProduct>()
+    
     var watcher: GraphQLQueryWatcher<SimpleProductListQuery>? = nil
     
     init(){
         StoreManager.shared.delegate = self
-        StoreManager.shared.startProductRequest(with: ["PLAN"])
-
         self.watcher = Network.shared.apollo.watch(query: SimpleProductListQuery(limit: 0, offset: 0), cachePolicy: .returnCacheDataAndFetch) { result in
           switch result {
           case .success(let graphQLResult):
             guard let products = graphQLResult.data?.products else { return }
-            self.products = products
+            self.unchainedProducts = products
+            let productIds = products.map { product in return product.id }
+            StoreManager.shared.startProductRequest(with: productIds)
+            self.combineProducts()
           case .failure(let error):
             print("Failure! Error: \(error)")
           }
         }
+    }
+    
+    private func combineProducts() {
+        products = unchainedProducts.map({ unchainedProduct in
+            let storeKitProduct = storeKitProducts.first(where: { storeKitProduct in
+                return storeKitProduct.productIdentifier == unchainedProduct.id
+            })
+            return Product(storeKitProduct: storeKitProduct, unchainedProduct: unchainedProduct)
+        })
     }
     
     func storeManagerDidReceiveMessage(_ message: String) {
@@ -50,13 +77,14 @@ public class ProductFetcher: ObservableObject, StoreManagerDelegate {
     }
     
     func storeManagerDidReceiveResponse(_ response: [Section]) {
-        let allElements = response.flatMap { section -> [SKProduct] in
+        let products = response.flatMap { section -> [SKProduct] in
             let mappedProducts = section.elements.compactMap { product in
                 return product as? SKProduct
             }
             return mappedProducts
         }
-        print(allElements.map { product in product.productIdentifier  })
+        storeKitProducts.formUnion(products)
+        combineProducts()
     }
     
     deinit {
