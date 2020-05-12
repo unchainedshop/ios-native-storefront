@@ -1,0 +1,5 @@
+mutation checkoutCart($paymentContext: JSON) {
+  checkoutCart(paymentContext: $paymentContext) {
+    _id
+  }
+}

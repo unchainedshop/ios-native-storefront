@@ -1,0 +1,7 @@
+mutation loginAsGuest {
+  loginAsGuest {
+    id
+    token
+    tokenExpires
+  }
+}

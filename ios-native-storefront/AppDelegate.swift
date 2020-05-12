@@ -8,7 +8,6 @@
 
 import UIKit
 import Network
-
 import StoreKit
 
 @UIApplicationMain
@@ -34,6 +33,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             catch { print("Couldn't read receipt data with error: " + error.localizedDescription) }
         }
+        
+        Network.shared.login()
+        
         return true
     }
 

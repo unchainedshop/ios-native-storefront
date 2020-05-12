@@ -20,6 +20,7 @@ public class MeFetcher: ObservableObject {
           switch result {
           case .success(let graphQLResult):
             guard let me = graphQLResult.data?.me else { return }
+            print(me);
             self.me = me
           case .failure(let error):
             print("Failure! Error: \(error)")

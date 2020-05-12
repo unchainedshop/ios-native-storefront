@@ -9,6 +9,11 @@ import Foundation
 
 // MARK: - Download Information
 
+struct LoginCredentials {
+    static let tokenKey = "loginToken"
+    static let tokenExpiresKey = "loginTokenExpires"
+}
+
 /// A structure that specifies a downloadable content's information that will be displayed to users.
 struct DownloadContentLabels {
     static let contentIdentifier = "Identifier"

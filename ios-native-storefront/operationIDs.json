@@ -1,7 +1,19 @@
 {
-  "a4cae260ad381ec9a7d5d9847284501b4079c0a128499d294d906070a36ff60e": {
+  "5f90782441ef7d44a818ccc191d15da175634e1bbcf02c27a0abbee52787a5ed": {
+    "name": "addSubscriptionToCart",
+    "source": "mutation addSubscriptionToCart($productId: ID!, $paymentProviderId: ID!) {\n  emptyCart {\n    __typename\n    _id\n  }\n  addCartProduct(productId: $productId) {\n    __typename\n    _id\n  }\n  updateCart(paymentProviderId: $paymentProviderId) {\n    __typename\n    _id\n  }\n}"
+  },
+  "597fe442950b37661509c5181ab08d63cda10a49d04d2daf13a177f88acd7c61": {
+    "name": "checkoutCart",
+    "source": "mutation checkoutCart($paymentContext: JSON) {\n  checkoutCart(paymentContext: $paymentContext) {\n    __typename\n    _id\n  }\n}"
+  },
+  "7a769dadd5eb36a8828dfeadedee7dd5f2cfba6c8f60f217cfa3a18fc1bffd90": {
+    "name": "loginAsGuest",
+    "source": "mutation loginAsGuest {\n  loginAsGuest {\n    __typename\n    id\n    token\n    tokenExpires\n  }\n}"
+  },
+  "b61eaebf35c92333ab7d71a896c722c76ef04a7c127e853057c380b560f057b9": {
     "name": "Me",
-    "source": "query Me {\n  me {\n    __typename\n    _id\n    username\n  }\n}"
+    "source": "query Me {\n  me {\n    __typename\n    _id\n    username\n    primaryEmail {\n      __typename\n      address\n    }\n  }\n}"
   },
   "12cdfd9a86038bc1e0c5d066c434dae991b03bc0da8cd7c82f9fc47b3cca89eb": {
     "name": "SimpleProductList",

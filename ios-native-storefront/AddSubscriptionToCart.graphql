@@ -1,0 +1,11 @@
+mutation addSubscriptionToCart($productId: ID!, $paymentProviderId: ID!) {
+  emptyCart {
+    _id
+  }
+  addCartProduct(productId: $productId) {
+    _id
+  }
+  updateCart(paymentProviderId: $paymentProviderId) {
+    _id
+  }
+}

@@ -65,6 +65,9 @@ class StoreObserver: NSObject, SKPaymentTransactionObserver {
         purchased.append(transaction)
         print("\(Messages.deliverContent) \(transaction.payment.productIdentifier).")
         
+        // 1. Add plan to cart
+        print("Now create a cart! \(transaction.transactionIdentifier).")
+
         // Finish the successful transaction.
         SKPaymentQueue.default().finishTransaction(transaction)
     }
