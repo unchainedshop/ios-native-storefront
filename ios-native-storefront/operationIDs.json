@@ -1,7 +1,7 @@
 {
-  "5f90782441ef7d44a818ccc191d15da175634e1bbcf02c27a0abbee52787a5ed": {
-    "name": "addSubscriptionToCart",
-    "source": "mutation addSubscriptionToCart($productId: ID!, $paymentProviderId: ID!) {\n  emptyCart {\n    __typename\n    _id\n  }\n  addCartProduct(productId: $productId) {\n    __typename\n    _id\n  }\n  updateCart(paymentProviderId: $paymentProviderId) {\n    __typename\n    _id\n  }\n}"
+  "5c9b9e36f0c6bdba54f71551b4066826d7366d578e6e425a2456523006b0d381": {
+    "name": "addProductToCart",
+    "source": "mutation addProductToCart($productId: ID!, $paymentProviderId: ID!) {\n  emptyCart {\n    __typename\n    _id\n  }\n  addCartProduct(productId: $productId) {\n    __typename\n    _id\n  }\n  updateCart(paymentProviderId: $paymentProviderId) {\n    __typename\n    _id\n    payment {\n      __typename\n      _id\n    }\n  }\n}"
   },
   "597fe442950b37661509c5181ab08d63cda10a49d04d2daf13a177f88acd7c61": {
     "name": "checkoutCart",

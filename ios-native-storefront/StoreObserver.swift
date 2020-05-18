@@ -66,8 +66,16 @@ class StoreObserver: NSObject, SKPaymentTransactionObserver {
         print("\(Messages.deliverContent) \(transaction.payment.productIdentifier).")
         
         // 1. Add plan to cart
-        print("Now create a cart! \(transaction.transactionIdentifier).")
-
+        if (transaction.transactionState == .purchasing) {
+            if let transactionIdentifier = transaction.transactionIdentifier {
+                print("Now create a cart! \(transactionIdentifier).")
+                Network.shared.checkout(transactionId: transactionIdentifier, productId: transaction.payment.productIdentifier, paymentProviderId: "", completion: (paymentId) => () {
+                    print(paymentId)
+                })
+            }
+        }
+        
+        
         // Finish the successful transaction.
         SKPaymentQueue.default().finishTransaction(transaction)
     }

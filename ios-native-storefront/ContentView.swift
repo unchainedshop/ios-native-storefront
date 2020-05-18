@@ -17,7 +17,7 @@ struct SubscribeButton : View {
         return Button(action: {
             StoreObserver.shared.buy(self.product, userId: self.userId)
         }) {
-            return Text("Subscribe")
+            return Text("Buy")
                 .foregroundColor(Color.white)
                 .padding(.all, 10.0)
         }.background(Color.black)

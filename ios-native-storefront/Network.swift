@@ -32,7 +32,6 @@ class Network : HTTPNetworkTransportPreflightDelegate {
         if let token = keychain.get(LoginCredentials.tokenKey) {
             headers["Authorization"] = "Bearer \(token)"
         }
-        print(headers)
         
           // Re-assign the updated headers to the request.
           request.allHTTPHeaderFields = headers
@@ -62,6 +61,27 @@ class Network : HTTPNetworkTransportPreflightDelegate {
             case .failure(let error):
               print("Error: \(error)")
             }
+        }
+    }
+    
+    public func checkout(transactionId: String, productId: String, paymentProviderId: String, completion: String? -> ()) -> Cancellable {
+        
+        return apollo.perform(mutation: AddProductToCartMutation(productId: productId, paymentProviderId: paymentProviderId)) { [weak self] result in
+            switch result {
+            case .success(let graphQLResult):
+                if let updateCart = graphQLResult.data?.updateCart {
+                    completion(updateCart.payment?._id)
+                    return
+              }
+
+              if let errors = graphQLResult.errors {
+                print("Errors from server: \(errors)")
+              }
+            case .failure(let error):
+              print("Error: \(error)")
+            }
+            completion(nil)
+
         }
     }
 }

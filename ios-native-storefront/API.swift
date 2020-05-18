@@ -4,11 +4,11 @@
 import Apollo
 import Foundation
 
-public final class AddSubscriptionToCartMutation: GraphQLMutation {
+public final class AddProductToCartMutation: GraphQLMutation {
   /// The raw GraphQL definition of this operation.
   public let operationDefinition: String =
     """
-    mutation addSubscriptionToCart($productId: ID!, $paymentProviderId: ID!) {
+    mutation addProductToCart($productId: ID!, $paymentProviderId: ID!) {
       emptyCart {
         __typename
         _id
@@ -20,13 +20,17 @@ public final class AddSubscriptionToCartMutation: GraphQLMutation {
       updateCart(paymentProviderId: $paymentProviderId) {
         __typename
         _id
+        payment {
+          __typename
+          _id
+        }
       }
     }
     """
 
-  public let operationName: String = "addSubscriptionToCart"
+  public let operationName: String = "addProductToCart"
 
-  public let operationIdentifier: String? = "5f90782441ef7d44a818ccc191d15da175634e1bbcf02c27a0abbee52787a5ed"
+  public let operationIdentifier: String? = "5c9b9e36f0c6bdba54f71551b4066826d7366d578e6e425a2456523006b0d381"
 
   public var productId: GraphQLID
   public var paymentProviderId: GraphQLID
@@ -169,6 +173,7 @@ public final class AddSubscriptionToCartMutation: GraphQLMutation {
       public static let selections: [GraphQLSelection] = [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+        GraphQLField("payment", type: .object(Payment.selections)),
       ]
 
       public private(set) var resultMap: ResultMap
@@ -177,8 +182,8 @@ public final class AddSubscriptionToCartMutation: GraphQLMutation {
         self.resultMap = unsafeResultMap
       }
 
-      public init(_id: GraphQLID) {
-        self.init(unsafeResultMap: ["__typename": "Order", "_id": _id])
+      public init(_id: GraphQLID, payment: Payment? = nil) {
+        self.init(unsafeResultMap: ["__typename": "Order", "_id": _id, "payment": payment.flatMap { (value: Payment) -> ResultMap in value.resultMap }])
       }
 
       public var __typename: String {
@@ -196,6 +201,60 @@ public final class AddSubscriptionToCartMutation: GraphQLMutation {
         }
         set {
           resultMap.updateValue(newValue, forKey: "_id")
+        }
+      }
+
+      public var payment: Payment? {
+        get {
+          return (resultMap["payment"] as? ResultMap).flatMap { Payment(unsafeResultMap: $0) }
+        }
+        set {
+          resultMap.updateValue(newValue?.resultMap, forKey: "payment")
+        }
+      }
+
+      public struct Payment: GraphQLSelectionSet {
+        public static let possibleTypes: [String] = ["OrderPaymentCard", "OrderPaymentInvoice", "OrderPaymentGeneric"]
+
+        public static let selections: [GraphQLSelection] = [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+        ]
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public static func makeOrderPaymentCard(_id: GraphQLID) -> Payment {
+          return Payment(unsafeResultMap: ["__typename": "OrderPaymentCard", "_id": _id])
+        }
+
+        public static func makeOrderPaymentInvoice(_id: GraphQLID) -> Payment {
+          return Payment(unsafeResultMap: ["__typename": "OrderPaymentInvoice", "_id": _id])
+        }
+
+        public static func makeOrderPaymentGeneric(_id: GraphQLID) -> Payment {
+          return Payment(unsafeResultMap: ["__typename": "OrderPaymentGeneric", "_id": _id])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var _id: GraphQLID {
+          get {
+            return resultMap["_id"]! as! GraphQLID
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "_id")
+          }
         }
       }
     }
