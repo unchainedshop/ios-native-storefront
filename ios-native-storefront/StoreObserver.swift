@@ -69,7 +69,7 @@ class StoreObserver: NSObject, SKPaymentTransactionObserver {
         if (transaction.transactionState == .purchasing) {
             if let transactionIdentifier = transaction.transactionIdentifier {
                 print("Now create a cart! \(transactionIdentifier).")
-                Network.shared.checkout(transactionId: transactionIdentifier, productId: transaction.payment.productIdentifier, paymentProviderId: "", completion: (paymentId) => () {
+                Network.shared.checkout(transactionId: transactionIdentifier, productId: transaction.payment.productIdentifier, paymentProviderId: "", completion: { paymentId in
                     print(paymentId)
                 })
             }

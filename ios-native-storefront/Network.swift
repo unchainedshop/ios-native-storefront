@@ -12,7 +12,7 @@ import KeychainSwift
 
 class Network : HTTPNetworkTransportPreflightDelegate {
     private lazy var networkTransport: HTTPNetworkTransport = {
-      let transport = HTTPNetworkTransport(url: URL(string: "https://engine.unchained.shop/graphql")!)
+      let transport = HTTPNetworkTransport(url: URL(string: "https://minimal.unchained-test.ucc.dev/graphql")!)
       transport.delegate = self
       return transport
     }()
@@ -64,7 +64,7 @@ class Network : HTTPNetworkTransportPreflightDelegate {
         }
     }
     
-    public func checkout(transactionId: String, productId: String, paymentProviderId: String, completion: String? -> ()) -> Cancellable {
+    public func checkout(transactionId: String, productId: String, paymentProviderId: String, completion: @escaping (String?) -> ()) -> Cancellable {
         
         return apollo.perform(mutation: AddProductToCartMutation(productId: productId, paymentProviderId: paymentProviderId)) { [weak self] result in
             switch result {
